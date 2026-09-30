@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Pin Cat Bot</string>
+    <string name="accessibility_description">Pin Cat Bot uses accessibility gestures only when you start the bot, to tap the selected game pin.</string>
+</resources>
