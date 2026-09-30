@@ -23,7 +23,7 @@ class ScreenCaptureService:Service(){
   projection=getSystemService(MediaProjectionManager::class.java).getMediaProjection(code,data);val dm=resources.displayMetrics
   reader=ImageReader.newInstance(dm.widthPixels,dm.heightPixels,PixelFormat.RGBA_8888,2)
   display=projection!!.createVirtualDisplay("PinCatBot",dm.widthPixels,dm.heightPixels,dm.densityDpi,android.hardware.display.DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,reader!!.surface,null,handler)
-  reader!!.setOnImageAvailableListener({process(it)},handler)
+  reader!!.setOnImageAvailableListener({ source: ImageReader -> process(source) },handler)
  }
  private fun process(r:ImageReader){if(!enabled||busy)return;val image=r.acquireLatestImage()?:return;try{val bmp=imageToBitmap(image)?:return;val result=vision.detect(bmp);val target=PinSolver.choose(result.targets,result.board)
   if(target!=null&&SystemClock.uptimeMillis()-lastTap>750L){PinAccessibilityService.instance?.let{busy=true;lastTap=SystemClock.uptimeMillis();it.tap(target.tap.x,target.tap.y);handler.postDelayed({busy=false},550L)}}}finally{image.close()}}
