@@ -1,0 +1,1 @@
+Build: open GitHub Actions → Build PinCatBot APK → Run workflow → download PinCatBot-APK. Phone: install APK, grant Screen Capture, enable Accessibility, open game, press START BOT.
