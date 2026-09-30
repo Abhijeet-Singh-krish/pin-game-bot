@@ -18,7 +18,7 @@ class ScreenCaptureService:Service(){
  override fun onBind(intent:Intent?)=null
  override fun onCreate(){super.onCreate();createChannel();if(Build.VERSION.SDK_INT>=29)startForeground(7,notification("Pin Cat Bot ready"),ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)else @Suppress("DEPRECATION") startForeground(7,notification("Pin Cat Bot ready"))}
  override fun onStartCommand(i:Intent?,f:Int,s:Int):Int{when(i?.action){ACTION_START->{enabled=true;startCapture(i)};ACTION_STOP->{enabled=false;stopSelf()}};return START_NOT_STICKY}
- @Suppress("DEPRECATION") private fun legacy(i:Intent)=i.getParcelableExtra(EXTRA_DATA)
+ @Suppress("DEPRECATION") private fun legacy(i:Intent):Intent?=i.getParcelableExtra<Intent>(EXTRA_DATA)
  private fun startCapture(i:Intent){if(projection!=null)return;val code=i.getIntExtra(EXTRA_RESULT,Activity.RESULT_CANCELED);val data=if(Build.VERSION.SDK_INT>=33)i.getParcelableExtra(EXTRA_DATA,Intent::class.java)else legacy(i);if(code!=Activity.RESULT_OK||data==null)return
   projection=getSystemService(MediaProjectionManager::class.java).getMediaProjection(code,data);val dm=resources.displayMetrics
   reader=ImageReader.newInstance(dm.widthPixels,dm.heightPixels,PixelFormat.RGBA_8888,2)
